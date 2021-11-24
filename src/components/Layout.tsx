@@ -5,12 +5,14 @@ import {
 	Toolbar,
 	Box,
 	IconButton,
-	Drawer
+	Drawer,
+	Typography
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import Menu from './Menu';
 import LoginMenu from './LoginMenu';
+import Logo from './Logo';
 
 const Layout: FC = ({ children }) => {
 	const [openedMenu, setOpenedMenu] = useState(false);
@@ -25,6 +27,7 @@ const Layout: FC = ({ children }) => {
 						disableGutters
 						sx={{ gap: 2, display: { xs: 'none', sm: 'flex' } }}
 					>
+						<Logo mobile={false} />
 						<Menu mobile={false} />
 						<Box sx={{ flexGrow: 1 }} />
 						<LoginMenu />
@@ -46,6 +49,7 @@ const Layout: FC = ({ children }) => {
 						>
 							<MenuIcon />
 						</IconButton>
+						<Logo mobile />
 						<Drawer
 							anchor="top"
 							variant="temporary"
