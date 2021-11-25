@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
+import { v4 as uuid } from 'uuid';
 
 import useField from '../hooks/useField';
 import { booksDocument } from '../utils/firebase';
@@ -94,7 +95,7 @@ const BookDialog = ({ children }: Props) => {
 		}
 
 		try {
-			await setDoc(booksDocument('m@m.com'), {
+			await setDoc(booksDocument(uuid()), {
 				user: 'm@m.com',
 				title,
 				author,
