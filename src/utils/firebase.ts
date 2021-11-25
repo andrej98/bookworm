@@ -49,8 +49,9 @@ const db = getFirestore();
 
 // Reviews collection
 export type Book = {
+	user: string;
 	title: string;
-	author: number;
+	author: string;
 	year: string;
 	category: string;
 	description: string;
@@ -63,5 +64,5 @@ export const reviewsCollection = collection(
 	'books'
 ) as CollectionReference<Book>;
 
-export const reviewsDocument = (id: string) =>
-	doc(db, 'reviews', id) as DocumentReference<Book>;
+export const booksDocument = (id: string) =>
+	doc(db, 'books', id) as DocumentReference<Book>;
