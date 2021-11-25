@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
+import BooksTable from './components/BooksTable';
 import ChooseImage from './components/ChooseImage';
 import Layout from './components/Layout';
 import { UserProvider } from './hooks/useLoggedInUser';
@@ -13,6 +14,7 @@ const App = () => (
 				<div>
 					<h1>BookWorm</h1>
 					<ChooseImage />
+					<BooksTable />
 				</div>
 			</Layout>
 		</ThemeProvider>
