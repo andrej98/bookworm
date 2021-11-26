@@ -59,7 +59,7 @@ export type Book = {
 	//TODO: add image -> https://firebase.google.com/docs/storage/web/start
 };
 
-export const reviewsCollection = collection(
+export const booksCollection = collection(
 	db,
 	'books'
 ) as CollectionReference<Book>;

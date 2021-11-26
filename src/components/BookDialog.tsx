@@ -85,7 +85,7 @@ const BookDialog = ({ children }: Props) => {
 			hasError = true;
 		}
 
-		if (category.length === 0 || category === '1') {
+		if (category.length === 0) {
 			setCategoryError(true);
 			hasError = true;
 		}
@@ -112,7 +112,8 @@ const BookDialog = ({ children }: Props) => {
 
 	const handleSelect = (event: SelectChangeEvent) => {
 		setCategoryError(false);
-		setCategory(event.target.value);
+		const selectedIndex = event.target.value as any;
+		setCategory(options[selectedIndex]);
 	};
 
 	return (
