@@ -20,6 +20,7 @@ import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import ErrorText from './ErrorText';
 
 type Props = {
+	dialogTitle: string;
 	children: (open: () => void) => ReactNode;
 };
 
@@ -34,7 +35,7 @@ const options = [
 	'Cookbooks'
 ];
 
-const BookDialog = ({ children }: Props) => {
+const BookDialog = ({ dialogTitle, children }: Props) => {
 	const user = useLoggedInUser();
 
 	const [open, setOpen] = useState(false);
@@ -120,7 +121,7 @@ const BookDialog = ({ children }: Props) => {
 		<>
 			{children(() => setOpen(true))}
 			<Dialog open={open} onClose={closeDialog}>
-				<DialogTitle>Add book</DialogTitle>
+				<DialogTitle>{dialogTitle}</DialogTitle>
 				<DialogContent
 					sx={{
 						display: 'flex',
