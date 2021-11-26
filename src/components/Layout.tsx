@@ -10,6 +10,8 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
+
 import Menu from './Menu';
 import LoginMenu from './LoginMenu';
 import Logo from './Logo';
