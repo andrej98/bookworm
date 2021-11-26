@@ -10,13 +10,14 @@ const Routes = () => {
 	const user = useLoggedInUser();
 	return (
 		<Switch>
-			{!user && (
+			{user ? (
 				<>
-					<Route path="/login" exact component={Login} />
 					<Route path="/books" exact render={AllBooks} />
 					<Route path="/books-to-read" exact component={BooksToRead} />
 					<Route path="/read-books" exact component={ReadBooks} />
 				</>
+			) : (
+				<Route path="/login" exact component={Login} />
 			)}
 			{/* <Route component={NotFound} /> */}
 		</Switch>
