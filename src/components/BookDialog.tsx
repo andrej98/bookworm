@@ -39,6 +39,7 @@ const options = [
 	'Cookbooks'
 ];
 
+// TODO: figure out how to fill textfields and dropdown when edit dialog is shown
 const BookDialog = ({
 	book,
 	isAddBookDialog,
