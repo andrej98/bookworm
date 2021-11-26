@@ -77,10 +77,10 @@ const BookDialog = ({
 	};
 
 	const handleSubmit = async (isRead: boolean) => {
-		if (!user?.email) {
-			alert('You are not signed in');
-			return;
-		}
+		// if (!user?.email) {
+		// 	alert('You are not signed in');
+		// 	return;
+		// }
 
 		// TODO year validation
 		let hasError = false;
@@ -105,8 +105,10 @@ const BookDialog = ({
 		}
 
 		try {
-			await setDoc(booksDocument(uuid()), {
-				user: user?.email,
+			const uuId = uuid() as string;
+			await setDoc(booksDocument(uuId), {
+				id: uuId,
+				user: 'm@m.com', //user?.email,
 				title,
 				author,
 				year,

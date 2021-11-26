@@ -49,6 +49,7 @@ const db = getFirestore();
 
 // Reviews collection
 export type Book = {
+	id: string;
 	user: string;
 	title: string;
 	author: string;

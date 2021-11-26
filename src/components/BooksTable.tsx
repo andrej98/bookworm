@@ -14,11 +14,15 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import { onSnapshot } from 'firebase/firestore';
+import { onSnapshot, deleteDoc } from 'firebase/firestore';
 import { TableHead } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
 
-import { Book, booksCollection } from '../utils/firebase';
+import { Book, booksCollection, booksDocument } from '../utils/firebase';
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
+
+import BookDialog from './BookDialog';
+import ConfirmDialog from './ConfirmDialog';
 
 type Column = {
 	id: 'booktitle' | 'author' | 'category';
@@ -123,6 +127,7 @@ const BooksTable = () => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [books, setBooks] = useState<Book[]>([]);
+	const [selectedBookId, setSelectedBookId] = useState('');
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
@@ -152,12 +157,20 @@ const BooksTable = () => {
 
 		// return book.user === user.email ? true : false;
 
-		return book.user === 'm@m2.com' ? true : false;
+		return book.user === 'm@m.com' ? true : false;
+	};
+
+	const removeBook = () => {
+		const bookRef = booksDocument(selectedBookId);
+		deleteDoc(bookRef);
+		setSelectedBookId('');
 	};
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(booksCollection, snapshot => {
-			const allBooks: Book[] = snapshot.docs.map(doc => doc.data());
+			const allBooks = snapshot.docs.map(doc => ({
+				...doc.data()
+			}));
 			setBooks(allBooks.filter(userHasBook));
 		});
 		return () => {
@@ -179,6 +192,8 @@ const BooksTable = () => {
 								{column.label}
 							</TableCell>
 						))}
+						<TableCell align="right" />
+						<TableCell align="right" />
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -190,11 +205,34 @@ const BooksTable = () => {
 							<TableCell component="th" scope="row">
 								{book.title}
 							</TableCell>
-							<TableCell style={{ width: 160 }} align="right">
+							<TableCell style={{ width: 120 }} align="right">
 								{book.author}
 							</TableCell>
-							<TableCell style={{ width: 160 }} align="right">
+							<TableCell style={{ width: 120 }} align="right">
 								{book.category}
+							</TableCell>
+							<TableCell style={{ width: 20 }}>
+								<IconButton title="edit">
+									<Edit />
+								</IconButton>
+							</TableCell>
+							<TableCell style={{ width: 20 }}>
+								<ConfirmDialog
+									bookTitle={book.title}
+									onConfirm={() => removeBook()}
+								>
+									{open => (
+										<IconButton
+											color="error"
+											onClick={() => {
+												open();
+												setSelectedBookId(book.id);
+											}}
+										>
+											<Delete />
+										</IconButton>
+									)}
+								</ConfirmDialog>
 							</TableCell>
 						</TableRow>
 					))}
