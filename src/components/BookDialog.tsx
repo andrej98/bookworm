@@ -47,7 +47,7 @@ const BookDialog = ({
 	isShowDialog,
 	children
 }: Props) => {
-	const user = useLoggedInUser();
+	const { user } = useLoggedInUser();
 
 	const [open, setOpen] = useState(false);
 

@@ -1,8 +1,9 @@
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 type MenuItem = {
-	// route: string;
+	route: string;
 	label: string;
 };
 
@@ -12,15 +13,15 @@ type MenuProps = {
 
 const menuItems: MenuItem[] = [
 	{
-		// route: '/',
+		route: '/',
 		label: 'Books'
 	},
 	{
-		// route: '/books-to-read',
+		route: '/books-to-read',
 		label: 'Books to read'
 	},
 	{
-		// route: 'read-books',
+		route: 'read-books',
 		label: 'Read books'
 	}
 ];
@@ -28,7 +29,12 @@ const menuItems: MenuItem[] = [
 const Menu: FC<MenuProps> = props => (
 	<>
 		{menuItems.map((item, index) => (
-			<Button key={index} color={props.mobile ? 'primary' : 'secondary'}>
+			<Button
+				key={index}
+				component={Link}
+				to={item.route}
+				color={props.mobile ? 'primary' : 'secondary'}
+			>
 				{item.label}
 			</Button>
 		))}
