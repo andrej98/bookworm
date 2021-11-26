@@ -5,7 +5,7 @@ import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import { signOut } from '../utils/firebase';
 
 const LoginMenu = () => {
-	const user = useLoggedInUser();
+	const { user } = useLoggedInUser();
 
 	return (
 		<div>

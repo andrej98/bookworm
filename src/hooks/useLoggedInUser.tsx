@@ -3,22 +3,33 @@ import { User } from 'firebase/auth';
 
 import { onAuthChanged } from '../utils/firebase';
 
-type UserState = User | undefined;
+type UserState = {
+	user: User | undefined;
+	loading: boolean;
+};
 
 const UserContext = createContext<UserState>(undefined as never);
 
 export const UserProvider: FC = ({ children }) => {
 	const [user, setUser] = useState<User>();
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const unsubscribe = onAuthChanged(u => setUser(u ?? undefined));
+		const unsubscribe = onAuthChanged(u => {
+			setUser(u ?? undefined);
+			setLoading(false);
+		});
 		return unsubscribe;
 	}, []);
 
-	return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+	return (
+		<UserContext.Provider value={{ user, loading }}>
+			{children}
+		</UserContext.Provider>
+	);
 };
 
 export const useLoggedInUser = () => {
-	const user = useContext(UserContext);
-	return user;
+	const { user, loading } = useContext(UserContext);
+	return { user, loading };
 };

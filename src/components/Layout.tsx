@@ -16,7 +16,7 @@ import LoginMenu from './LoginMenu';
 import Logo from './Logo';
 
 const Layout: FC = ({ children }) => {
-	const user = useLoggedInUser();
+	const { user } = useLoggedInUser();
 	const [openedMenu, setOpenedMenu] = useState(false);
 
 	const toggleDrawer = () => setOpenedMenu(prev => !prev);

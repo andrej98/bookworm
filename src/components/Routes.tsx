@@ -9,8 +9,10 @@ import NotFound from '../pages/NotFound';
 import ReadBooks from '../pages/ReadBooks';
 import WelcomePage from '../pages/WelcomePage';
 
+import Loading from './Loading';
+
 const Routes = () => {
-	const user = useLoggedInUser();
+	const { user, loading } = useLoggedInUser();
 	return (
 		<Box>
 			{user ? (
@@ -22,9 +24,9 @@ const Routes = () => {
 				</Switch>
 			) : (
 				<Switch>
-					<Route path="/" exact component={WelcomePage} />
+					<Route path="/" exact component={loading ? Loading : WelcomePage} />
 					<Route path="/login" exact component={Login} />
-					<Route component={NotFound} />
+					<Route component={loading ? Loading : NotFound} />
 				</Switch>
 			)}
 		</Box>
