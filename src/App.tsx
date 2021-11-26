@@ -15,7 +15,7 @@ const App = () => (
 				<div>
 					<h1>BookWorm</h1>
 					<ChooseImage />
-					<BookDialog dialogTitle="Add book">
+					<BookDialog isShowDialog>
 						{open => (
 							<Button onClick={open} variant="contained">
 								Add book

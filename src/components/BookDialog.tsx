@@ -21,7 +21,9 @@ import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import ErrorText from './ErrorText';
 
 type Props = {
-	dialogTitle: string;
+	isAddBookDialog?: boolean;
+	isEditDialog?: boolean;
+	isShowDialog?: boolean;
 	children: (open: () => void) => ReactNode;
 };
 
@@ -36,7 +38,12 @@ const options = [
 	'Cookbooks'
 ];
 
-const BookDialog = ({ dialogTitle, children }: Props) => {
+const BookDialog = ({
+	isAddBookDialog,
+	isEditDialog,
+	isShowDialog,
+	children
+}: Props) => {
 	const user = useLoggedInUser();
 
 	const [open, setOpen] = useState(false);
@@ -88,6 +95,7 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 			setCategoryError(true);
 			hasError = true;
 		}
+		// TODO year validation
 
 		if (hasError) {
 			return;
@@ -126,7 +134,12 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 						alignItems: 'center'
 					}}
 				>
-					{dialogTitle}
+					{isAddBookDialog
+						? 'Add books'
+						: isShowDialog
+						? 'Show book'
+						: 'Edit book'}
+
 					<IconButton onClick={closeDialog}>
 						<CloseIcon />
 					</IconButton>
@@ -142,6 +155,7 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 					<TextField
 						label="Title *"
 						fullWidth
+						disabled={isShowDialog ?? false}
 						{...titleProps}
 						onChangeCapture={() => setTitleError(false)}
 						sx={{
@@ -152,12 +166,23 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 					<TextField
 						label="Author *"
 						fullWidth
+						disabled={isShowDialog ?? false}
 						{...authorProps}
 						onChangeCapture={() => setAuthorError(false)}
 					/>
 					{authorError && <ErrorText title="This field is required" />}
-					<TextField label="Year" fullWidth {...yearProps} />
-					<Select native defaultValue="none" onChange={handleSelect}>
+					<TextField
+						label="Year"
+						disabled={isShowDialog ?? false}
+						fullWidth
+						{...yearProps}
+					/>
+					<Select
+						native
+						defaultValue="none"
+						disabled={isShowDialog ?? false}
+						onChange={handleSelect}
+					>
 						<option value="none" disabled>
 							Select category *
 						</option>
@@ -170,23 +195,32 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 					{categoryError && (
 						<ErrorText title="Please select a category first" />
 					)}
-					<TextField label="Description" fullWidth {...descriptionProps} />
+					<TextField
+						label="Description"
+						fullWidth
+						disabled={isShowDialog ?? false}
+						{...descriptionProps}
+					/>
 				</DialogContent>
 				<DialogActions>
-					<Button
-						fullWidth
-						onClick={() => handleSubmit(false)}
-						variant="contained"
-					>
-						I want to read it
-					</Button>
-					<Button
-						fullWidth
-						onClick={() => handleSubmit(true)}
-						variant="contained"
-					>
-						I already read it
-					</Button>
+					{isAddBookDialog && (
+						<Button
+							fullWidth
+							onClick={() => handleSubmit(false)}
+							variant="contained"
+						>
+							I want to read it
+						</Button>
+					)}
+					{isAddBookDialog && (
+						<Button
+							fullWidth
+							onClick={() => handleSubmit(true)}
+							variant="contained"
+						>
+							I already read it
+						</Button>
+					)}
 				</DialogActions>
 			</Dialog>
 		</>
