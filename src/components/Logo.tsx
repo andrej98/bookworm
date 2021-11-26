@@ -5,7 +5,7 @@ type LogoProps = {
 };
 
 const Logo = (props: LogoProps) => (
-	<Typography sx={{ mr: props.mobile ? 0 : 3 }} variant="h5">
+	<Typography sx={{ mr: props.mobile ? -3 : 3 }} variant="h5">
 		BookWorm
 	</Typography>
 );

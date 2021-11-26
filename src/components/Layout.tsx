@@ -19,7 +19,7 @@ const Layout: FC = ({ children }) => {
 	const { user } = useLoggedInUser();
 	const [openedMenu, setOpenedMenu] = useState(false);
 
-	const toggleDrawer = () => setOpenedMenu(prev => !prev);
+	const toggleDrawer = (open: boolean) => setOpenedMenu(open);
 
 	return (
 		<>
@@ -48,7 +48,7 @@ const Layout: FC = ({ children }) => {
 								edge="start"
 								color="inherit"
 								aria-label="open menu"
-								onClick={toggleDrawer}
+								onClick={() => toggleDrawer(true)}
 							>
 								<MenuIcon />
 							</IconButton>
@@ -58,7 +58,9 @@ const Layout: FC = ({ children }) => {
 							anchor="top"
 							variant="temporary"
 							open={openedMenu}
-							onClose={toggleDrawer}
+							sx={{ top: '55px' }}
+							onClose={() => toggleDrawer(false)}
+							onClick={() => toggleDrawer(false)}
 						>
 							<Box
 								sx={{
