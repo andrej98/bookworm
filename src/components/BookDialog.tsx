@@ -4,14 +4,16 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	IconButton,
 	Select,
 	SelectChangeEvent,
-	TextField,
-	Typography
+	TextField
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { ReactNode, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
+import { display } from '@mui/system';
 
 import useField from '../hooks/useField';
 import { booksDocument } from '../utils/firebase';
@@ -121,7 +123,18 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 		<>
 			{children(() => setOpen(true))}
 			<Dialog open={open} onClose={closeDialog}>
-				<DialogTitle>{dialogTitle}</DialogTitle>
+				<DialogTitle
+					sx={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center'
+					}}
+				>
+					{dialogTitle}
+					<IconButton onClick={closeDialog}>
+						<CloseIcon />
+					</IconButton>
+				</DialogTitle>
 				<DialogContent
 					sx={{
 						display: 'flex',
@@ -164,29 +177,18 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 					<TextField label="Description" fullWidth {...descriptionProps} />
 				</DialogContent>
 				<DialogActions>
-					{submitError && (
-						<Typography
-							variant="subtitle2"
-							align="left"
-							color="error"
-							paragraph
-						>
-							{submitError}
-						</Typography>
-					)}
 					<Button
-						onClick={closeDialog}
-						sx={{
-							mr: 2,
-							ml: 2
-						}}
+						fullWidth
+						onClick={() => handleSubmit(false)}
+						variant="contained"
 					>
-						Cancel
-					</Button>
-					<Button onClick={() => handleSubmit(false)} variant="contained">
 						I want to read it
 					</Button>
-					<Button onClick={() => handleSubmit(true)} variant="contained">
+					<Button
+						fullWidth
+						onClick={() => handleSubmit(true)}
+						variant="contained"
+					>
 						I already read it
 					</Button>
 				</DialogActions>
