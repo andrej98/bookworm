@@ -1,3 +1,6 @@
+import { triggerAsyncId } from 'async_hooks';
+import { AssertionError } from 'assert';
+
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -15,8 +18,30 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { onSnapshot } from 'firebase/firestore';
+import { TableHead } from '@mui/material';
 
 import { Book, booksCollection } from '../utils/firebase';
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
+
+type Column = {
+	id: 'booktitle' | 'author' | 'category';
+	label: string;
+	minWidth?: number;
+	align?: 'right';
+};
+
+const columns: readonly Column[] = [
+	{ id: 'booktitle', label: 'Book Title' },
+	{ id: 'author', label: 'Author', minWidth: 160, align: 'right' },
+	{
+		id: 'category',
+		label: 'Category',
+		minWidth: 160,
+		align: 'right'
+	}
+];
+
+// const columns: readonly Column[] = ['Book title', 'Author', 'Category'];
 
 type TablePaginationActionsProps = {
 	count: number;
@@ -99,6 +124,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 };
 
 const BooksTable = () => {
+	const user = useLoggedInUser();
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [books, setBooks] = useState<Book[]>([]);
@@ -121,9 +147,23 @@ const BooksTable = () => {
 		setPage(0);
 	};
 
+	const userHasBook = (book: Book) => {
+		// TODO: uncomment
+		if (!user?.email) {
+			// alert('The user must be signed in');
+			// TODO: assertion error
+			// return;
+		}
+
+		// return book.user === user.email ? true : false;
+
+		return book.user === 'm@m.com' ? true : false;
+	};
+
 	useEffect(() => {
 		const unsubscribe = onSnapshot(booksCollection, snapshot => {
-			setBooks(snapshot.docs.map(doc => doc.data()));
+			const allBooks: Book[] = snapshot.docs.map(doc => doc.data());
+			setBooks(allBooks.filter(userHasBook));
 		});
 		return () => {
 			unsubscribe();
@@ -132,7 +172,20 @@ const BooksTable = () => {
 
 	return (
 		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+			<Table stickyHeader aria-label="sticky table" sx={{ minWidth: 500 }}>
+				<TableHead>
+					<TableRow>
+						{columns.map(column => (
+							<TableCell
+								key={column.id}
+								style={{ width: column.minWidth, fontWeight: 'bold' }}
+								align={column.align}
+							>
+								{column.label}
+							</TableCell>
+						))}
+					</TableRow>
+				</TableHead>
 				<TableBody>
 					{(rowsPerPage > 0
 						? books.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
