@@ -10,7 +10,7 @@ import {
 	TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
@@ -51,13 +51,14 @@ const BookDialog = ({
 
 	const [open, setOpen] = useState(false);
 
-	const [title, titleProps] = useField('Title', book?.title);
-	const [author, authorProps] = useField('Author', book?.author);
-	const [year, yearProps] = useField('Year', book?.year);
+	const [title, titleProps] = useField('Title', false, book?.title);
+	const [author, authorProps] = useField('Author', false, book?.author);
+	const [year, yearProps] = useField('Year', false, book?.year);
 	const [category, setCategory] = useState('');
 
 	const [description, descriptionProps] = useField(
 		'Description',
+		false,
 		book?.description
 	);
 
@@ -81,10 +82,10 @@ const BookDialog = ({
 	};
 
 	const handleSubmit = async (isRead: boolean) => {
-		// if (!user?.email) {
-		// 	alert('You are not signed in');
-		// 	return;
-		// }
+		if (!user?.email) {
+			alert('You are not signed in');
+			return;
+		}
 
 		// TODO year validation
 		let hasError = false;
