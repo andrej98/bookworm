@@ -10,7 +10,7 @@ import {
 	TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
@@ -51,11 +51,15 @@ const BookDialog = ({
 
 	const [open, setOpen] = useState(false);
 
-	const [title, titleProps] = useField('Title');
-	const [author, authorProps] = useField('Author');
-	const [year, yearProps] = useField('Year');
+	const [title, titleProps] = useField('Title', book?.title);
+	const [author, authorProps] = useField('Author', book?.author);
+	const [year, yearProps] = useField('Year', book?.year);
 	const [category, setCategory] = useState('');
-	const [description, descriptionProps] = useField('Description');
+
+	const [description, descriptionProps] = useField(
+		'Description',
+		book?.description
+	);
 
 	const [titleError, setTitleError] = useState<boolean>(false);
 	const [authorError, setAuthorError] = useState<boolean>(false);
@@ -184,7 +188,11 @@ const BookDialog = ({
 					/>
 					<Select
 						native
-						defaultValue="none"
+						defaultValue={
+							isEditDialog && book?.category !== undefined
+								? options[options.indexOf(book?.category)]
+								: 'none'
+						}
 						disabled={isShowDialog ?? false}
 						onChange={handleSelect}
 					>

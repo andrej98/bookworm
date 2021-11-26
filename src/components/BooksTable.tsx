@@ -212,7 +212,14 @@ const BooksTable = () => {
 								{book.category}
 							</TableCell>
 							<TableCell style={{ width: 20 }}>
-								<IconButton title="edit">
+								{/* <BookDialog isEditDialog book={book}>
+									{open => (
+										<IconButton onClick={open}>
+											<Edit />
+										</IconButton>
+									)}
+								</BookDialog> */}
+								<IconButton>
 									<Edit />
 								</IconButton>
 							</TableCell>
