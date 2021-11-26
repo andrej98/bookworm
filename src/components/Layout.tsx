@@ -5,16 +5,18 @@ import {
 	Toolbar,
 	Box,
 	IconButton,
-	Drawer,
-	Typography
+	Drawer
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
 
 import Menu from './Menu';
 import LoginMenu from './LoginMenu';
 import Logo from './Logo';
 
 const Layout: FC = ({ children }) => {
+	const { user } = useLoggedInUser();
 	const [openedMenu, setOpenedMenu] = useState(false);
 
 	const toggleDrawer = () => setOpenedMenu(prev => !prev);
@@ -28,7 +30,7 @@ const Layout: FC = ({ children }) => {
 						sx={{ gap: 2, display: { xs: 'none', sm: 'flex' } }}
 					>
 						<Logo mobile={false} />
-						<Menu mobile={false} />
+						{user && <Menu mobile={false} />}
 						<Box sx={{ flexGrow: 1 }} />
 						<LoginMenu />
 					</Toolbar>
@@ -41,14 +43,16 @@ const Layout: FC = ({ children }) => {
 							justifyContent: 'space-between'
 						}}
 					>
-						<IconButton
-							edge="start"
-							color="inherit"
-							aria-label="open menu"
-							onClick={toggleDrawer}
-						>
-							<MenuIcon />
-						</IconButton>
+						{user && (
+							<IconButton
+								edge="start"
+								color="inherit"
+								aria-label="open menu"
+								onClick={toggleDrawer}
+							>
+								<MenuIcon />
+							</IconButton>
+						)}
 						<Logo mobile />
 						<Drawer
 							anchor="top"

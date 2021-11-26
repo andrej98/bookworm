@@ -119,7 +119,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 };
 
 const BooksTable = () => {
-	const user = useLoggedInUser();
+	const { user } = useLoggedInUser();
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [books, setBooks] = useState<Book[]>([]);
