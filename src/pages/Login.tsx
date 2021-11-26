@@ -70,7 +70,11 @@ const Login = () => {
 				>
 					Sign up
 				</Button>
-				<Button type="submit" variant="contained">
+				<Button
+					type="submit"
+					onClick={() => setSignUp(false)}
+					variant="contained"
+				>
 					Sing in
 				</Button>
 			</Box>

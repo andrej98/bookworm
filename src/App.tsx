@@ -16,18 +16,6 @@ const App = () => (
 				<CssBaseline />
 				<Layout>
 					<Routes />
-					<div>
-						<h1>BookWorm</h1>
-						<ChooseImage />
-						<BookDialog isShowDialog>
-							{open => (
-								<Button onClick={open} variant="contained">
-									Add book
-								</Button>
-							)}
-						</BookDialog>
-						<BooksTable />
-					</div>
 				</Layout>
 			</BrowserRouter>
 		</ThemeProvider>

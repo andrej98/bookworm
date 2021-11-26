@@ -13,7 +13,7 @@ type MenuProps = {
 
 const menuItems: MenuItem[] = [
 	{
-		route: '/books',
+		route: '/',
 		label: 'Books'
 	},
 	{
