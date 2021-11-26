@@ -201,47 +201,51 @@ const BooksTable = () => {
 						? books.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: books
 					).map(book => (
-						<TableRow key={book.title}>
-							<TableCell component="th" scope="row">
-								{book.title}
-							</TableCell>
-							<TableCell style={{ width: 120 }} align="right">
-								{book.author}
-							</TableCell>
-							<TableCell style={{ width: 120 }} align="right">
-								{book.category}
-							</TableCell>
-							<TableCell style={{ width: 20 }}>
-								{/* <BookDialog isEditDialog book={book}>
+						<BookDialog key={book.id} isShowDialog>
+							{open => (
+								<TableRow key={book.id} onClick={open}>
+									<TableCell component="th" scope="row">
+										{book.title}
+									</TableCell>
+									<TableCell style={{ width: 120 }} align="right">
+										{book.author}
+									</TableCell>
+									<TableCell style={{ width: 120 }} align="right">
+										{book.category}
+									</TableCell>
+									<TableCell style={{ width: 20 }}>
+										{/* <BookDialog isEditDialog book={book}>
 									{open => (
 										<IconButton onClick={open}>
 											<Edit />
 										</IconButton>
 									)}
 								</BookDialog> */}
-								<IconButton>
-									<Edit />
-								</IconButton>
-							</TableCell>
-							<TableCell style={{ width: 20 }}>
-								<ConfirmDialog
-									bookTitle={book.title}
-									onConfirm={() => removeBook()}
-								>
-									{open => (
-										<IconButton
-											color="error"
-											onClick={() => {
-												open();
-												setSelectedBookId(book.id);
-											}}
-										>
-											<Delete />
+										<IconButton>
+											<Edit />
 										</IconButton>
-									)}
-								</ConfirmDialog>
-							</TableCell>
-						</TableRow>
+									</TableCell>
+									<TableCell style={{ width: 20 }}>
+										<ConfirmDialog
+											bookTitle={book.title}
+											onConfirm={() => removeBook()}
+										>
+											{open => (
+												<IconButton
+													color="error"
+													onClick={() => {
+														open();
+														setSelectedBookId(book.id);
+													}}
+												>
+													<Delete />
+												</IconButton>
+											)}
+										</ConfirmDialog>
+									</TableCell>
+								</TableRow>
+							)}
+						</BookDialog>
 					))}
 					{emptyRows > 0 && (
 						<TableRow style={{ height: 53 * emptyRows }}>
