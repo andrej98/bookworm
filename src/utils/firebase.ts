@@ -49,8 +49,9 @@ const db = getFirestore();
 
 // Reviews collection
 export type Book = {
+	user: string;
 	title: string;
-	author: number;
+	author: string;
 	year: string;
 	category: string;
 	description: string;
@@ -58,10 +59,10 @@ export type Book = {
 	//TODO: add image -> https://firebase.google.com/docs/storage/web/start
 };
 
-export const reviewsCollection = collection(
+export const booksCollection = collection(
 	db,
 	'books'
 ) as CollectionReference<Book>;
 
-export const reviewsDocument = (id: string) =>
-	doc(db, 'reviews', id) as DocumentReference<Book>;
+export const booksDocument = (id: string) =>
+	doc(db, 'books', id) as DocumentReference<Book>;
