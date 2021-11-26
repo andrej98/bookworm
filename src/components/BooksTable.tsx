@@ -203,14 +203,22 @@ const BooksTable = () => {
 					).map(book => (
 						<BookDialog key={book.id} isShowDialog>
 							{open => (
-								<TableRow key={book.id} onClick={open}>
-									<TableCell component="th" scope="row">
+								<TableRow key={book.id}>
+									<TableCell component="th" scope="row" onClick={open}>
 										{book.title}
 									</TableCell>
-									<TableCell style={{ width: 120 }} align="right">
+									<TableCell
+										style={{ width: 120 }}
+										align="right"
+										onClick={open}
+									>
 										{book.author}
 									</TableCell>
-									<TableCell style={{ width: 120 }} align="right">
+									<TableCell
+										style={{ width: 120 }}
+										align="right"
+										onClick={open}
+									>
 										{book.category}
 									</TableCell>
 									<TableCell style={{ width: 20 }}>
