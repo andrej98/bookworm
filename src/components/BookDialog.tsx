@@ -13,7 +13,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ReactNode, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
-import { display } from '@mui/system';
 
 import useField from '../hooks/useField';
 import { booksDocument } from '../utils/firebase';
@@ -52,8 +51,6 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 	const [authorError, setAuthorError] = useState<boolean>(false);
 	const [categoryError, setCategoryError] = useState<boolean>(false);
 
-	const [submitError, setSubmitError] = useState<string>();
-
 	const closeDialog = () => {
 		setOpen(false);
 		titleProps.onChange({ target: { value: '' } } as never);
@@ -67,14 +64,13 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 		setTitleError(false);
 		setAuthorError(false);
 		setCategoryError(false);
-		setSubmitError(undefined);
 	};
 
 	const handleSubmit = async (isRead: boolean) => {
-		// if (!user?.email) {
-		// 	setSubmitError('You are not signed in');
-		// 	return;
-		// }
+		if (!user?.email) {
+			alert('You are not signed in');
+			return;
+		}
 
 		let hasError = false;
 
@@ -99,7 +95,7 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 
 		try {
 			await setDoc(booksDocument(uuid()), {
-				user: 'm@m.com',
+				user: user?.email,
 				title,
 				author,
 				year,
@@ -109,7 +105,7 @@ const BookDialog = ({ dialogTitle, children }: Props) => {
 			});
 			closeDialog();
 		} catch (err) {
-			setSubmitError((err as { message?: string })?.message ?? 'unknown_error');
+			alert((err as { message?: string })?.message ?? 'unknown_error');
 		}
 	};
 

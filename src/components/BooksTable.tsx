@@ -1,6 +1,3 @@
-import { triggerAsyncId } from 'async_hooks';
-import { AssertionError } from 'assert';
-
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -40,8 +37,6 @@ const columns: readonly Column[] = [
 		align: 'right'
 	}
 ];
-
-// const columns: readonly Column[] = ['Book title', 'Author', 'Category'];
 
 type TablePaginationActionsProps = {
 	count: number;
@@ -157,7 +152,7 @@ const BooksTable = () => {
 
 		// return book.user === user.email ? true : false;
 
-		return book.user === 'm@m.com' ? true : false;
+		return book.user === 'm@m2.com' ? true : false;
 	};
 
 	useEffect(() => {
