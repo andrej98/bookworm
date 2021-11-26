@@ -15,12 +15,13 @@ import { setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
 import useField from '../hooks/useField';
-import { booksDocument } from '../utils/firebase';
+import { Book, booksDocument } from '../utils/firebase';
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
 
 import ErrorText from './ErrorText';
 
 type Props = {
+	book?: Book;
 	isAddBookDialog?: boolean;
 	isEditDialog?: boolean;
 	isShowDialog?: boolean;
@@ -39,6 +40,7 @@ const options = [
 ];
 
 const BookDialog = ({
+	book,
 	isAddBookDialog,
 	isEditDialog,
 	isShowDialog,
@@ -79,6 +81,7 @@ const BookDialog = ({
 			return;
 		}
 
+		// TODO year validation
 		let hasError = false;
 
 		if (title.length === 0) {
@@ -95,7 +98,6 @@ const BookDialog = ({
 			setCategoryError(true);
 			hasError = true;
 		}
-		// TODO year validation
 
 		if (hasError) {
 			return;
@@ -219,6 +221,24 @@ const BookDialog = ({
 							variant="contained"
 						>
 							I already read it
+						</Button>
+					)}
+					{isEditDialog && book !== undefined && (
+						<Button
+							fullWidth
+							onClick={() => handleSubmit(book.isRead)}
+							variant="contained"
+						>
+							Save
+						</Button>
+					)}
+					{isEditDialog && book !== undefined && !book.isRead && (
+						<Button
+							fullWidth
+							onClick={() => handleSubmit(true)}
+							variant="contained"
+						>
+							Read book
 						</Button>
 					)}
 				</DialogActions>
