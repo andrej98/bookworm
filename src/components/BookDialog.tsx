@@ -10,7 +10,7 @@ import {
 	TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
@@ -69,10 +69,6 @@ const BookDialog = ({
 
 	const closeDialog = () => {
 		setOpen(false);
-		titleProps.onChange({ target: { value: '' } } as never);
-		authorProps.onChange({ target: { value: '' } } as never);
-		yearProps.onChange({ target: { value: '' } } as never);
-		descriptionProps.onChange({ target: { value: '' } } as never);
 		clearErrors();
 	};
 
@@ -81,6 +77,23 @@ const BookDialog = ({
 		setAuthorError(false);
 		setCategoryError(false);
 	};
+
+	useEffect(() => {
+		if ((isEditDialog || isShowDialog) && book !== undefined && open) {
+			titleProps.onChange({ target: { value: book?.title } } as never);
+			authorProps.onChange({ target: { value: book?.author } } as never);
+			yearProps.onChange({ target: { value: book?.year } } as never);
+			descriptionProps.onChange({
+				target: { value: book?.description }
+			} as never);
+			// setCategory(book?.category);
+		} else if (!open) {
+			titleProps.onChange({ target: { value: '' } } as never);
+			authorProps.onChange({ target: { value: '' } } as never);
+			yearProps.onChange({ target: { value: '' } } as never);
+			descriptionProps.onChange({ target: { value: '' } } as never);
+		}
+	}, [open]);
 
 	const handleSubmit = async (isRead: boolean) => {
 		if (!user?.email) {

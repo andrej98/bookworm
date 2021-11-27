@@ -206,7 +206,7 @@ const BooksTable = ({ isRead }: Props) => {
 						? books.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: books
 					).map(book => (
-						<BookDialog key={book.id} isShowDialog>
+						<BookDialog key={book.id} isShowDialog book={book}>
 							{open => (
 								<TableRow key={book.id}>
 									<TableCell component="th" scope="row" onClick={open}>
@@ -227,16 +227,13 @@ const BooksTable = ({ isRead }: Props) => {
 										{book.category}
 									</TableCell>
 									<TableCell style={{ width: 20 }}>
-										{/* <BookDialog isEditDialog book={book}>
-									{open => (
-										<IconButton onClick={open}>
-											<Edit />
-										</IconButton>
-									)}
-								</BookDialog> */}
-										<IconButton>
-											<Edit />
-										</IconButton>
+										<BookDialog isEditDialog book={book}>
+											{open => (
+												<IconButton onClick={open}>
+													<Edit />
+												</IconButton>
+											)}
+										</BookDialog>
 									</TableCell>
 									<TableCell style={{ width: 20 }}>
 										<ConfirmDialog
