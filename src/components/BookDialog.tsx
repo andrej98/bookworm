@@ -143,8 +143,8 @@ const BookDialog = ({
 
 	const handleSelect = (event: SelectChangeEvent) => {
 		setCategoryError(false);
-		const selectedIndex = Number(event.target.value);
-		setCategory(options[selectedIndex]);
+		const selectedIndex = event.target.value as string;
+		setCategory(selectedIndex);
 	};
 
 	return (
@@ -204,7 +204,7 @@ const BookDialog = ({
 					<Select
 						native
 						defaultValue={
-							isEditDialog && book?.category !== undefined
+							(isShowDialog || isEditDialog) && book?.category !== undefined
 								? options[options.indexOf(book?.category)]
 								: 'none'
 						}
@@ -215,7 +215,7 @@ const BookDialog = ({
 							Select category *
 						</option>
 						{options.map((category, i) => (
-							<option key={i} value={i}>
+							<option key={i} value={category}>
 								{category}
 							</option>
 						))}
