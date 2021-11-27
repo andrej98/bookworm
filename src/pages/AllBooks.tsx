@@ -2,12 +2,10 @@ import { Button } from '@mui/material';
 
 import BookDialog from '../components/BookDialog';
 import BooksTable from '../components/BooksTable';
-import ChooseImage from '../components/ChooseImage';
 
 const AllBooks = () => (
 	<>
 		<h1>All books</h1>
-		<ChooseImage />
 		<BookDialog isAddBookDialog>
 			{open => (
 				<Button onClick={open} variant="contained">

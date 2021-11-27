@@ -130,6 +130,7 @@ const BookDialog = ({
 
 	const handleSelect = (event: SelectChangeEvent) => {
 		setCategoryError(false);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const selectedIndex = event.target.value as any;
 		setCategory(options[selectedIndex]);
 	};
