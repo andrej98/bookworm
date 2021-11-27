@@ -1,5 +1,3 @@
-// You are about to delete
-
 import {
 	Button,
 	Dialog,

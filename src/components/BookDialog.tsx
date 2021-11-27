@@ -36,7 +36,8 @@ const options = [
 	'Detective and Mystery',
 	'Romance',
 	'Biographies',
-	'Cookbooks'
+	'Cookbooks',
+	'Other'
 ];
 
 // TODO: figure out how to fill textfields and dropdown when edit dialog is shown
@@ -113,7 +114,7 @@ const BookDialog = ({
 			const uuId = uuid() as string;
 			await setDoc(booksDocument(uuId), {
 				id: uuId,
-				user: 'm@m.com', //user?.email,
+				user: user?.email,
 				title,
 				author,
 				year,
@@ -145,7 +146,7 @@ const BookDialog = ({
 					}}
 				>
 					{isAddBookDialog
-						? 'Add books'
+						? 'Add book'
 						: isShowDialog
 						? 'Show book'
 						: 'Edit book'}

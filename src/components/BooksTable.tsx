@@ -148,16 +148,12 @@ const BooksTable = () => {
 	};
 
 	const userHasBook = (book: Book) => {
-		// TODO: uncomment
 		if (!user?.email) {
-			// alert('The user must be signed in');
-			// TODO: assertion error
-			// return;
+			alert('The user must be signed in');
+			return;
 		}
 
-		// return book.user === user.email ? true : false;
-
-		return book.user === 'm@m.com' ? true : false;
+		return book.user === user.email ? true : false;
 	};
 
 	const removeBook = () => {

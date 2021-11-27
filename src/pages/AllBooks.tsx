@@ -8,7 +8,7 @@ const AllBooks = () => (
 	<>
 		<h1>All books</h1>
 		<ChooseImage />
-		<BookDialog isShowDialog>
+		<BookDialog isAddBookDialog>
 			{open => (
 				<Button onClick={open} variant="contained">
 					Add book
