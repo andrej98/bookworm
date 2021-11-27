@@ -15,7 +15,7 @@ const BookPageHeader = ({ title }: Props) => (
 				fontWeight: 'bold'
 			}}
 		>
-			{title}{' '}
+			{title}
 			<BookDialog isAddBookDialog>
 				{open => (
 					<Button onClick={open} variant="contained">
