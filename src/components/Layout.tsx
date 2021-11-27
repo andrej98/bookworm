@@ -58,7 +58,6 @@ const Layout: FC = ({ children }) => {
 							anchor="top"
 							variant="temporary"
 							open={openedMenu}
-							sx={{ top: '55px' }}
 							onClose={() => toggleDrawer(false)}
 							onClick={() => toggleDrawer(false)}
 						>
