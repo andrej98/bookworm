@@ -122,7 +122,11 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 	);
 };
 
-const BooksTable = () => {
+type Props = {
+	isRead?: boolean;
+};
+
+const BooksTable = ({ isRead }: Props) => {
 	const { user } = useLoggedInUser();
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -167,7 +171,12 @@ const BooksTable = () => {
 			const allBooks = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
-			setBooks(allBooks.filter(userHasBook));
+			let userBooks = allBooks.filter(userHasBook);
+			if (isRead !== undefined) {
+				userBooks = userBooks.filter(book => book.isRead === isRead);
+			}
+
+			setBooks(userBooks);
 		});
 		return () => {
 			unsubscribe();
@@ -197,7 +206,7 @@ const BooksTable = () => {
 						? books.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: books
 					).map(book => (
-						<BookDialog key={book.id} isShowDialog>
+						<BookDialog key={book.id} isShowDialog book={book}>
 							{open => (
 								<TableRow key={book.id}>
 									<TableCell component="th" scope="row" onClick={open}>
@@ -218,16 +227,13 @@ const BooksTable = () => {
 										{book.category}
 									</TableCell>
 									<TableCell style={{ width: 20 }}>
-										{/* <BookDialog isEditDialog book={book}>
-									{open => (
-										<IconButton onClick={open}>
-											<Edit />
-										</IconButton>
-									)}
-								</BookDialog> */}
-										<IconButton>
-											<Edit />
-										</IconButton>
+										<BookDialog isEditDialog book={book}>
+											{open => (
+												<IconButton onClick={open}>
+													<Edit />
+												</IconButton>
+											)}
+										</BookDialog>
 									</TableCell>
 									<TableCell style={{ width: 20 }}>
 										<ConfirmDialog
