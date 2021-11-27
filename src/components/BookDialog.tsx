@@ -40,7 +40,6 @@ const options = [
 	'Other'
 ];
 
-// TODO: figure out how to fill textfields and dropdown when edit dialog is shown
 const BookDialog = ({
 	book,
 	isAddBookDialog,
@@ -66,6 +65,7 @@ const BookDialog = ({
 	const [titleError, setTitleError] = useState<boolean>(false);
 	const [authorError, setAuthorError] = useState<boolean>(false);
 	const [categoryError, setCategoryError] = useState<boolean>(false);
+	const [yearError, setYearError] = useState<boolean>(false);
 
 	const closeDialog = () => {
 		setOpen(false);
@@ -76,6 +76,7 @@ const BookDialog = ({
 		setTitleError(false);
 		setAuthorError(false);
 		setCategoryError(false);
+		setYearError(false);
 	};
 
 	useEffect(() => {
@@ -102,7 +103,6 @@ const BookDialog = ({
 			return;
 		}
 
-		// TODO year validation
 		let hasError = false;
 
 		if (title.length === 0) {
@@ -117,6 +117,17 @@ const BookDialog = ({
 
 		if (category.length === 0) {
 			setCategoryError(true);
+			hasError = true;
+		}
+
+		const numRegex = /^[0-9]+$/;
+		if (
+			year &&
+			(!year.match(numRegex) ||
+				Number(year) > new Date().getFullYear() ||
+				Number(year) < 0)
+		) {
+			setYearError(true);
 			hasError = true;
 		}
 
@@ -215,11 +226,17 @@ const BookDialog = ({
 					/>
 					{authorError && <ErrorText title="This field is required" />}
 					<TextField
+						type="number"
+						InputProps={{
+							inputProps: { min: '0', max: new Date().getFullYear(), step: '1' }
+						}}
 						label="Year"
 						disabled={isShowDialog ?? false}
 						fullWidth
 						{...yearProps}
+						onChangeCapture={() => setAuthorError(false)}
 					/>
+					{yearError && <ErrorText title="Invalid year" />}
 					<Select
 						native
 						defaultValue={
