@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactNode, useEffect, useState } from 'react';
-import { setDoc } from 'firebase/firestore';
+import { setDoc, updateDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
 import useField from '../hooks/useField';
@@ -86,12 +86,13 @@ const BookDialog = ({
 			descriptionProps.onChange({
 				target: { value: book?.description }
 			} as never);
-			// setCategory(book?.category);
+			setCategory(book?.category);
 		} else if (!open) {
 			titleProps.onChange({ target: { value: '' } } as never);
 			authorProps.onChange({ target: { value: '' } } as never);
 			yearProps.onChange({ target: { value: '' } } as never);
 			descriptionProps.onChange({ target: { value: '' } } as never);
+			setCategory('');
 		}
 	}, [open]);
 
@@ -123,21 +124,39 @@ const BookDialog = ({
 			return;
 		}
 
-		try {
-			const uuId = uuid() as string;
-			await setDoc(booksDocument(uuId), {
-				id: uuId,
-				user: user?.email,
-				title,
-				author,
-				year,
-				category,
-				description,
-				isRead
-			});
-			closeDialog();
-		} catch (err) {
-			alert((err as { message?: string })?.message ?? 'unknown_error');
+		if (isAddBookDialog) {
+			try {
+				const uuId = uuid() as string;
+				await setDoc(booksDocument(uuId), {
+					id: uuId,
+					user: user?.email,
+					title,
+					author,
+					year,
+					category,
+					description,
+					isRead
+				});
+				closeDialog();
+			} catch (err) {
+				alert((err as { message?: string })?.message ?? 'unknown_error');
+			}
+		} else if (isEditDialog && book) {
+			try {
+				const bookRef = booksDocument(book.id);
+				await updateDoc(bookRef, {
+					user: user?.email,
+					title,
+					author,
+					year,
+					category,
+					description,
+					isRead
+				});
+				closeDialog();
+			} catch (err) {
+				alert((err as { message?: string })?.message ?? 'unknown_error');
+			}
 		}
 	};
 
