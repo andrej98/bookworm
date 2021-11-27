@@ -1,18 +1,9 @@
-import { Button } from '@mui/material';
-
-import BookDialog from '../components/BookDialog';
+import BookPageHeader from '../components/BookPageHeader';
 import BooksTable from '../components/BooksTable';
 
 const AllBooks = () => (
 	<>
-		<h1>All books</h1>
-		<BookDialog isAddBookDialog>
-			{open => (
-				<Button onClick={open} variant="contained">
-					Add book
-				</Button>
-			)}
-		</BookDialog>
+		<BookPageHeader title="All books" />
 		<BooksTable />
 	</>
 );

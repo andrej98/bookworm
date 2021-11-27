@@ -122,7 +122,11 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 	);
 };
 
-const BooksTable = () => {
+type Props = {
+	isRead?: boolean;
+};
+
+const BooksTable = ({ isRead }: Props) => {
 	const { user } = useLoggedInUser();
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -167,7 +171,12 @@ const BooksTable = () => {
 			const allBooks = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
-			setBooks(allBooks.filter(userHasBook));
+			let userBooks = allBooks.filter(userHasBook);
+			if (isRead !== undefined) {
+				userBooks = userBooks.filter(book => book.isRead === isRead);
+			}
+
+			setBooks(userBooks);
 		});
 		return () => {
 			unsubscribe();
