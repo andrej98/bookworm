@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
-const useField = (id: string, required?: boolean) => {
-	const [value, setValue] = useState('');
+const useField = (id: string, required?: boolean, inputValue = '') => {
+	const [value, setValue] = useState(inputValue);
 	const [touched, setTouched] = useState(false);
 
 	const error = required && touched && !value;

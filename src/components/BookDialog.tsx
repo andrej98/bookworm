@@ -36,7 +36,8 @@ const options = [
 	'Detective and Mystery',
 	'Romance',
 	'Biographies',
-	'Cookbooks'
+	'Cookbooks',
+	'Other'
 ];
 
 // TODO: figure out how to fill textfields and dropdown when edit dialog is shown
@@ -51,11 +52,16 @@ const BookDialog = ({
 
 	const [open, setOpen] = useState(false);
 
-	const [title, titleProps] = useField('Title');
-	const [author, authorProps] = useField('Author');
-	const [year, yearProps] = useField('Year');
+	const [title, titleProps] = useField('Title', false, book?.title);
+	const [author, authorProps] = useField('Author', false, book?.author);
+	const [year, yearProps] = useField('Year', false, book?.year);
 	const [category, setCategory] = useState('');
-	const [description, descriptionProps] = useField('Description');
+
+	const [description, descriptionProps] = useField(
+		'Description',
+		false,
+		book?.description
+	);
 
 	const [titleError, setTitleError] = useState<boolean>(false);
 	const [authorError, setAuthorError] = useState<boolean>(false);
@@ -105,7 +111,9 @@ const BookDialog = ({
 		}
 
 		try {
-			await setDoc(booksDocument(uuid()), {
+			const uuId = uuid() as string;
+			await setDoc(booksDocument(uuId), {
+				id: uuId,
 				user: user?.email,
 				title,
 				author,
@@ -122,6 +130,7 @@ const BookDialog = ({
 
 	const handleSelect = (event: SelectChangeEvent) => {
 		setCategoryError(false);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const selectedIndex = event.target.value as any;
 		setCategory(options[selectedIndex]);
 	};
@@ -138,7 +147,7 @@ const BookDialog = ({
 					}}
 				>
 					{isAddBookDialog
-						? 'Add books'
+						? 'Add book'
 						: isShowDialog
 						? 'Show book'
 						: 'Edit book'}
@@ -182,7 +191,11 @@ const BookDialog = ({
 					/>
 					<Select
 						native
-						defaultValue="none"
+						defaultValue={
+							isEditDialog && book?.category !== undefined
+								? options[options.indexOf(book?.category)]
+								: 'none'
+						}
 						disabled={isShowDialog ?? false}
 						onChange={handleSelect}
 					>
