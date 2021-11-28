@@ -21,8 +21,12 @@ const menuItems: MenuItem[] = [
 		label: 'Books to read'
 	},
 	{
-		route: 'read-books',
+		route: '/read-books',
 		label: 'Read books'
+	},
+	{
+		route: '/about',
+		label: 'About'
 	}
 ];
 

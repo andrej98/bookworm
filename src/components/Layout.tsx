@@ -5,9 +5,11 @@ import {
 	Toolbar,
 	Box,
 	IconButton,
-	Drawer
+	Drawer,
+	Button
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
 
@@ -31,7 +33,13 @@ const Layout: FC = ({ children }) => {
 					>
 						<Logo mobile={false} />
 						{user && <Menu mobile={false} />}
+						{!user && (
+							<Button component={Link} to="/about" color="secondary">
+								About
+							</Button>
+						)}
 						<Box sx={{ flexGrow: 1 }} />
+
 						<LoginMenu />
 					</Toolbar>
 					<Toolbar
