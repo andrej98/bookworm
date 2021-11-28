@@ -10,17 +10,7 @@ import Search from '@material-ui/icons/Search';
 import { Close } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 
-const options = [
-	'Fantasy',
-	'Historical',
-	'Horror',
-	'Action and Adventure',
-	'Detective and Mystery',
-	'Romance',
-	'Biographies',
-	'Cookbooks',
-	'Other'
-];
+import { categories } from './BookDialog';
 
 type FilterProps = {
 	filterBooks: (searchQuery: string, filterCategory: string) => void;
@@ -86,7 +76,7 @@ const Filter = (props: FilterProps) => {
 				onChange={handleSelect}
 			>
 				<option value="none">All categories</option>
-				{options.map((category, i) => (
+				{categories.map((category, i) => (
 					<option key={i} value={category}>
 						{category}
 					</option>
