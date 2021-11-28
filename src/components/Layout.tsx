@@ -5,11 +5,9 @@ import {
 	Toolbar,
 	Box,
 	IconButton,
-	Drawer,
-	Button
+	Drawer
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
 
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
 
