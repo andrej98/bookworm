@@ -234,7 +234,7 @@ const BookDialog = ({
 						disabled={isShowDialog ?? false}
 						fullWidth
 						{...yearProps}
-						onChangeCapture={() => setAuthorError(false)}
+						onChangeCapture={() => setYearError(false)}
 					/>
 					{yearError && <ErrorText title="Invalid year" />}
 					<Select
