@@ -45,16 +45,14 @@ const Layout: FC = ({ children }) => {
 							justifyContent: 'space-between'
 						}}
 					>
-						{user && (
-							<IconButton
-								edge="start"
-								color="inherit"
-								aria-label="open menu"
-								onClick={() => toggleDrawer(true)}
-							>
-								<MenuIcon />
-							</IconButton>
-						)}
+						<IconButton
+							edge="start"
+							color="inherit"
+							aria-label="open menu"
+							onClick={() => toggleDrawer(true)}
+						>
+							<MenuIcon />
+						</IconButton>
 						<Logo mobile />
 						<Drawer
 							anchor="top"
