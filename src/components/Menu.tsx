@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 type MenuItem = {
@@ -9,9 +8,10 @@ type MenuItem = {
 
 type MenuProps = {
 	mobile: boolean;
+	userLoggedIn: boolean;
 };
 
-const menuItems: MenuItem[] = [
+const loggedInMenuItems: MenuItem[] = [
 	{
 		route: '/',
 		label: 'Books'
@@ -30,18 +30,37 @@ const menuItems: MenuItem[] = [
 	}
 ];
 
-const Menu: FC<MenuProps> = props => (
+const notLoggedInMenuItems: MenuItem[] = [
+	{
+		route: '/about',
+		label: 'About'
+	}
+];
+
+const Menu = ({ mobile, userLoggedIn }: MenuProps) => (
 	<>
-		{menuItems.map((item, index) => (
-			<Button
-				key={index}
-				component={Link}
-				to={item.route}
-				color={props.mobile ? 'primary' : 'secondary'}
-			>
-				{item.label}
-			</Button>
-		))}
+		{userLoggedIn &&
+			loggedInMenuItems.map((item, index) => (
+				<Button
+					key={index}
+					component={Link}
+					to={item.route}
+					color={mobile ? 'primary' : 'secondary'}
+				>
+					{item.label}
+				</Button>
+			))}
+		{!userLoggedIn &&
+			notLoggedInMenuItems.map((item, index) => (
+				<Button
+					key={index}
+					component={Link}
+					to={item.route}
+					color={mobile ? 'primary' : 'secondary'}
+				>
+					{item.label}
+				</Button>
+			))}
 	</>
 );
 

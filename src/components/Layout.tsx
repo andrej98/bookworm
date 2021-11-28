@@ -32,14 +32,8 @@ const Layout: FC = ({ children }) => {
 						sx={{ gap: 2, display: { xs: 'none', sm: 'flex' } }}
 					>
 						<Logo mobile={false} />
-						{user && <Menu mobile={false} />}
-						{!user && (
-							<Button component={Link} to="/about" color="secondary">
-								About
-							</Button>
-						)}
+						<Menu mobile={false} userLoggedIn={user !== undefined} />
 						<Box sx={{ flexGrow: 1 }} />
-
 						<LoginMenu />
 					</Toolbar>
 					<Toolbar
@@ -75,7 +69,7 @@ const Layout: FC = ({ children }) => {
 									flexDirection: 'column'
 								}}
 							>
-								<Menu mobile />
+								<Menu mobile userLoggedIn={user !== undefined} />
 							</Box>
 						</Drawer>
 						<LoginMenu />
