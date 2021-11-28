@@ -30,7 +30,7 @@ const Layout: FC = ({ children }) => {
 						sx={{ gap: 2, display: { xs: 'none', sm: 'flex' } }}
 					>
 						<Logo mobile={false} />
-						{user && <Menu mobile={false} />}
+						<Menu mobile={false} userLoggedIn={user !== undefined} />
 						<Box sx={{ flexGrow: 1 }} />
 						<LoginMenu />
 					</Toolbar>
@@ -43,16 +43,14 @@ const Layout: FC = ({ children }) => {
 							justifyContent: 'space-between'
 						}}
 					>
-						{user && (
-							<IconButton
-								edge="start"
-								color="inherit"
-								aria-label="open menu"
-								onClick={() => toggleDrawer(true)}
-							>
-								<MenuIcon />
-							</IconButton>
-						)}
+						<IconButton
+							edge="start"
+							color="inherit"
+							aria-label="open menu"
+							onClick={() => toggleDrawer(true)}
+						>
+							<MenuIcon />
+						</IconButton>
 						<Logo mobile />
 						<Drawer
 							anchor="top"
@@ -67,7 +65,7 @@ const Layout: FC = ({ children }) => {
 									flexDirection: 'column'
 								}}
 							>
-								<Menu mobile />
+								<Menu mobile userLoggedIn={user !== undefined} />
 							</Box>
 						</Drawer>
 						<LoginMenu />
