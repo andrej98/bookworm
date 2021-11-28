@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactNode, useEffect, useState } from 'react';
-import { setDoc } from 'firebase/firestore';
+import { setDoc, updateDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
 import useField from '../hooks/useField';
@@ -40,7 +40,6 @@ const options = [
 	'Other'
 ];
 
-// TODO: figure out how to fill textfields and dropdown when edit dialog is shown
 const BookDialog = ({
 	book,
 	isAddBookDialog,
@@ -66,6 +65,7 @@ const BookDialog = ({
 	const [titleError, setTitleError] = useState<boolean>(false);
 	const [authorError, setAuthorError] = useState<boolean>(false);
 	const [categoryError, setCategoryError] = useState<boolean>(false);
+	const [yearError, setYearError] = useState<boolean>(false);
 
 	const closeDialog = () => {
 		setOpen(false);
@@ -76,6 +76,7 @@ const BookDialog = ({
 		setTitleError(false);
 		setAuthorError(false);
 		setCategoryError(false);
+		setYearError(false);
 	};
 
 	useEffect(() => {
@@ -86,12 +87,13 @@ const BookDialog = ({
 			descriptionProps.onChange({
 				target: { value: book?.description }
 			} as never);
-			// setCategory(book?.category);
+			setCategory(book?.category);
 		} else if (!open) {
 			titleProps.onChange({ target: { value: '' } } as never);
 			authorProps.onChange({ target: { value: '' } } as never);
 			yearProps.onChange({ target: { value: '' } } as never);
 			descriptionProps.onChange({ target: { value: '' } } as never);
+			setCategory('');
 		}
 	}, [open]);
 
@@ -101,7 +103,6 @@ const BookDialog = ({
 			return;
 		}
 
-		// TODO year validation
 		let hasError = false;
 
 		if (title.length === 0) {
@@ -119,33 +120,61 @@ const BookDialog = ({
 			hasError = true;
 		}
 
+		const numRegex = /^[0-9]+$/;
+		if (
+			year &&
+			(!year.match(numRegex) ||
+				Number(year) > new Date().getFullYear() ||
+				Number(year) < 0)
+		) {
+			setYearError(true);
+			hasError = true;
+		}
+
 		if (hasError) {
 			return;
 		}
 
-		try {
-			const uuId = uuid() as string;
-			await setDoc(booksDocument(uuId), {
-				id: uuId,
-				user: user?.email,
-				title,
-				author,
-				year,
-				category,
-				description,
-				isRead
-			});
-			closeDialog();
-		} catch (err) {
-			alert((err as { message?: string })?.message ?? 'unknown_error');
+		if (isAddBookDialog) {
+			try {
+				const uuId = uuid() as string;
+				await setDoc(booksDocument(uuId), {
+					id: uuId,
+					user: user?.email,
+					title,
+					author,
+					year,
+					category,
+					description,
+					isRead
+				});
+				closeDialog();
+			} catch (err) {
+				alert((err as { message?: string })?.message ?? 'unknown_error');
+			}
+		} else if (isEditDialog && book) {
+			try {
+				const bookRef = booksDocument(book.id);
+				await updateDoc(bookRef, {
+					user: user?.email,
+					title,
+					author,
+					year,
+					category,
+					description,
+					isRead
+				});
+				closeDialog();
+			} catch (err) {
+				alert((err as { message?: string })?.message ?? 'unknown_error');
+			}
 		}
 	};
 
 	const handleSelect = (event: SelectChangeEvent) => {
 		setCategoryError(false);
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const selectedIndex = event.target.value as any;
-		setCategory(options[selectedIndex]);
+		const selectedIndex = event.target.value as string;
+		setCategory(selectedIndex);
 	};
 
 	return (
@@ -197,15 +226,21 @@ const BookDialog = ({
 					/>
 					{authorError && <ErrorText title="This field is required" />}
 					<TextField
+						type="number"
+						InputProps={{
+							inputProps: { min: '0', max: new Date().getFullYear(), step: '1' }
+						}}
 						label="Year"
 						disabled={isShowDialog ?? false}
 						fullWidth
 						{...yearProps}
+						onChangeCapture={() => setAuthorError(false)}
 					/>
+					{yearError && <ErrorText title="Invalid year" />}
 					<Select
 						native
 						defaultValue={
-							isEditDialog && book?.category !== undefined
+							(isShowDialog || isEditDialog) && book?.category !== undefined
 								? options[options.indexOf(book?.category)]
 								: 'none'
 						}
@@ -216,7 +251,7 @@ const BookDialog = ({
 							Select category *
 						</option>
 						{options.map((category, i) => (
-							<option key={i} value={i}>
+							<option key={i} value={category}>
 								{category}
 							</option>
 						))}

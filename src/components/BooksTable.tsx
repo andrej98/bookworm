@@ -133,6 +133,23 @@ const BooksTable = ({ isRead }: Props) => {
 	const [books, setBooks] = useState<Book[]>([]);
 	const [selectedBookId, setSelectedBookId] = useState('');
 
+	useEffect(() => {
+		const unsubscribe = onSnapshot(booksCollection, snapshot => {
+			const allBooks = snapshot.docs.map(doc => ({
+				...doc.data()
+			}));
+			let userBooks = allBooks.filter(userHasBook);
+			if (isRead !== undefined) {
+				userBooks = userBooks.filter(book => book.isRead === isRead);
+			}
+
+			setBooks(userBooks);
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - books.length) : 0;
@@ -166,23 +183,6 @@ const BooksTable = ({ isRead }: Props) => {
 		setSelectedBookId('');
 	};
 
-	useEffect(() => {
-		const unsubscribe = onSnapshot(booksCollection, snapshot => {
-			const allBooks = snapshot.docs.map(doc => ({
-				...doc.data()
-			}));
-			let userBooks = allBooks.filter(userHasBook);
-			if (isRead !== undefined) {
-				userBooks = userBooks.filter(book => book.isRead === isRead);
-			}
-
-			setBooks(userBooks);
-		});
-		return () => {
-			unsubscribe();
-		};
-	}, []);
-
 	return (
 		<TableContainer component={Paper}>
 			<Table stickyHeader aria-label="sticky table" sx={{ minWidth: 500 }}>
@@ -209,18 +209,23 @@ const BooksTable = ({ isRead }: Props) => {
 						<BookDialog key={book.id} isShowDialog book={book}>
 							{open => (
 								<TableRow key={book.id}>
-									<TableCell component="th" scope="row" onClick={open}>
+									<TableCell
+										sx={{ cursor: 'pointer' }}
+										component="th"
+										scope="row"
+										onClick={open}
+									>
 										{book.title}
 									</TableCell>
 									<TableCell
-										style={{ width: 120 }}
+										sx={{ cursor: 'pointer', width: 120 }}
 										align="right"
 										onClick={open}
 									>
 										{book.author}
 									</TableCell>
 									<TableCell
-										style={{ width: 120 }}
+										sx={{ cursor: 'pointer', width: 120 }}
 										align="right"
 										onClick={open}
 									>

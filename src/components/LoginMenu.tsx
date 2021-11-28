@@ -1,11 +1,17 @@
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import { signOut } from '../utils/firebase';
 
 const LoginMenu = () => {
 	const { user } = useLoggedInUser();
+	const { push } = useHistory();
+
+	const logout = () => {
+		signOut();
+		push('/');
+	};
 
 	return (
 		<div>
@@ -14,7 +20,7 @@ const LoginMenu = () => {
 					Login
 				</Button>
 			) : (
-				<Button color="secondary" onClick={signOut}>
+				<Button color="secondary" onClick={logout}>
 					Logout
 				</Button>
 			)}
