@@ -190,7 +190,7 @@ const BooksTable = ({ isRead }: Props) => {
 		setFilteredBooks(
 			books.filter(book =>
 				category !== 'none'
-					? book.title.includes(query) && book.category === category
+					? book.title.includes(query) && book.category.includes(category)
 					: book.title.includes(query)
 			)
 		);
