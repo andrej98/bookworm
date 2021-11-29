@@ -28,7 +28,7 @@ type Props = {
 	children: (open: () => void) => ReactNode;
 };
 
-const options = [
+export const categories = [
 	'Fantasy',
 	'Historical',
 	'Horror',
@@ -241,7 +241,7 @@ const BookDialog = ({
 						native
 						defaultValue={
 							(isShowDialog || isEditDialog) && book?.category !== undefined
-								? options[options.indexOf(book?.category)]
+								? categories[categories.indexOf(book?.category)]
 								: 'none'
 						}
 						disabled={isShowDialog ?? false}
@@ -250,7 +250,7 @@ const BookDialog = ({
 						<option value="none" disabled>
 							Select category *
 						</option>
-						{options.map((category, i) => (
+						{categories.map((category, i) => (
 							<option key={i} value={category}>
 								{category}
 							</option>
