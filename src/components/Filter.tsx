@@ -18,7 +18,7 @@ type FilterProps = {
 
 const Filter = (props: FilterProps) => {
 	const [searchQuery, setSearchQuery] = useState('');
-	const [filterCategory, setFilterCategory] = useState('');
+	const [filterCategory, setFilterCategory] = useState('none');
 
 	useEffect(() => {
 		props.filterBooks(searchQuery, filterCategory);
@@ -69,12 +69,7 @@ const Filter = (props: FilterProps) => {
 				}}
 			/>
 
-			<Select
-				native
-				defaultValue="none"
-				value={filterCategory}
-				onChange={handleSelect}
-			>
+			<Select native value={filterCategory} onChange={handleSelect}>
 				<option value="none">All categories</option>
 				{categories.map((category, i) => (
 					<option key={i} value={category}>
