@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ImageUploader from 'react-images-upload';
+// import ImageUploader from 'react-images-upload';
 
 const ChooseImage = () => {
 	const [images, setImages] = useState<File[]>([]);
@@ -10,13 +10,13 @@ const ChooseImage = () => {
 	};
 	return (
 		<div>
-			<ImageUploader
+			{/* <ImageUploader
 				withIcon
 				buttonText="Choose images"
 				onChange={updateFieldChanged}
 				imgExtension={['.jpg', '.gif', '.png', '.gif']}
 				maxFileSize={5242880}
-			/>
+			/> */}
 		</div>
 	);
 };
