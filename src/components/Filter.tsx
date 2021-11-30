@@ -6,8 +6,9 @@ import {
 	SelectChangeEvent,
 	TextField
 } from '@mui/material';
-import Search from '@material-ui/icons/Search';
-import { Close } from '@mui/icons-material';
+//Vyber si jeden z tychto riadkov a myslim ze aspon jeden ti pojde, ten druhy vymaz
+// import { Close, Search } from '@material-ui/icons';
+import { Close, Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 
 import { categories } from './BookDialog';
