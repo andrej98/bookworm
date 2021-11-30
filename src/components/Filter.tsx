@@ -6,8 +6,6 @@ import {
 	SelectChangeEvent,
 	TextField
 } from '@mui/material';
-//Vyber si jeden z tychto riadkov a myslim ze aspon jeden ti pojde, ten druhy vymaz
-// import { Close, Search } from '@material-ui/icons';
 import { Close, Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 
