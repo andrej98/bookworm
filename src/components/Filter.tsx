@@ -92,7 +92,7 @@ const Filter = (props: FilterProps) => {
 					</option>
 				))}
 			</Select>
-			<Button variant="outlined" onClick={clearFilters}>
+			<Button variant="contained" onClick={clearFilters}>
 				Clear
 			</Button>
 		</Paper>

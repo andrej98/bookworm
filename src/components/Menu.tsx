@@ -13,10 +13,6 @@ type MenuProps = {
 
 const loggedInMenuItems: MenuItem[] = [
 	{
-		route: '/',
-		label: 'Books'
-	},
-	{
 		route: '/books-to-read',
 		label: 'Books to read'
 	},
@@ -46,6 +42,7 @@ const Menu = ({ mobile, userLoggedIn }: MenuProps) => (
 					component={Link}
 					to={item.route}
 					color={mobile ? 'primary' : 'secondary'}
+					sx={{ textTransform: 'none', fontSize: '18px' }}
 				>
 					{item.label}
 				</Button>
@@ -57,6 +54,7 @@ const Menu = ({ mobile, userLoggedIn }: MenuProps) => (
 					component={Link}
 					to={item.route}
 					color={mobile ? 'primary' : 'secondary'}
+					sx={{ textTransform: 'none', fontSize: '18px' }}
 				>
 					{item.label}
 				</Button>

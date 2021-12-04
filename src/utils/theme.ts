@@ -13,6 +13,10 @@ const theme = createTheme({
 		secondary: {
 			main: '#ffffff'
 		}
+		// background: {
+		// 	default: '#f3f2f7',
+		// 	paper: '#ffffff'
+		// }
 	}
 });
 
