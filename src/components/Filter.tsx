@@ -6,38 +6,51 @@ import {
 	SelectChangeEvent,
 	TextField
 } from '@mui/material';
-import Search from '@material-ui/icons/Search';
-import { Close } from '@mui/icons-material';
+import { Close, Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 
 import { categories } from './BookDialog';
 
 type FilterProps = {
-	filterBooks: (searchQuery: string, filterCategory: string) => void;
+	filterBooks: () => void;
 };
 
 const Filter = (props: FilterProps) => {
-	const [searchQuery, setSearchQuery] = useState('');
-	const [filterCategory, setFilterCategory] = useState('none');
+	const [searchTextFilter, setSearchTextFilter] = useState(
+		localStorage.getItem('searchText') ?? ''
+	);
+	const [categoryFilter, setCategoryFilter] = useState(
+		localStorage.getItem('category') ?? 'none'
+	);
 
 	useEffect(() => {
-		props.filterBooks(searchQuery, filterCategory);
-	}, [searchQuery, filterCategory]);
+		props.filterBooks();
+	}, [searchTextFilter, categoryFilter]);
 
-	const handleChange = (
+	const handleSearchTextChange = (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-	) => setSearchQuery(e.target.value);
-
-	const handleSelect = (event: SelectChangeEvent) => {
-		const selectedIndex = event.target.value as string;
-		setFilterCategory(selectedIndex);
+	) => {
+		const searchText = e.target.value as string;
+		localStorage.setItem('searchText', searchText);
+		setSearchTextFilter(searchText);
+	};
+	const handleCategoryChange = (event: SelectChangeEvent) => {
+		const selectedCategory = event.target.value as string;
+		localStorage.setItem('category', selectedCategory);
+		setCategoryFilter(selectedCategory);
 	};
 
-	const clearSearch = () => setSearchQuery('');
+	const clearSearch = () => {
+		localStorage.setItem('searchText', '');
+		setSearchTextFilter('');
+	};
 
-	const clearCategory = () => setFilterCategory('none');
+	const clearCategory = () => {
+		localStorage.setItem('category', 'none');
+		setCategoryFilter('none');
+	};
 
-	const clearFilter = () => {
+	const clearFilters = () => {
 		clearSearch();
 		clearCategory();
 	};
@@ -47,17 +60,19 @@ const Filter = (props: FilterProps) => {
 			sx={{
 				width: '100%',
 				display: 'flex',
-				justifyContent: 'space-between'
+				justifyContent: 'space-between',
+				mb: 2,
+				mt: 2
 			}}
 		>
 			<TextField
 				variant="outlined"
 				label="Search"
 				fullWidth
-				value={searchQuery}
-				onChange={handleChange}
+				value={searchTextFilter}
+				onChange={handleSearchTextChange}
 				InputProps={{
-					endAdornment: searchQuery ? (
+					endAdornment: searchTextFilter ? (
 						<IconButton onClick={clearSearch}>
 							<Close />
 						</IconButton>
@@ -69,7 +84,7 @@ const Filter = (props: FilterProps) => {
 				}}
 			/>
 
-			<Select native value={filterCategory} onChange={handleSelect}>
+			<Select native value={categoryFilter} onChange={handleCategoryChange}>
 				<option value="none">All categories</option>
 				{categories.map((category, i) => (
 					<option key={i} value={category}>
@@ -77,7 +92,7 @@ const Filter = (props: FilterProps) => {
 					</option>
 				))}
 			</Select>
-			<Button variant="outlined" onClick={clearFilter}>
+			<Button variant="contained" onClick={clearFilters}>
 				Clear
 			</Button>
 		</Paper>

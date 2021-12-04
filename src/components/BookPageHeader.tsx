@@ -1,9 +1,11 @@
 import { Button, Typography, Box } from '@mui/material';
 
 import BookDialog from '../components/BookDialog';
+
 type Props = {
 	title: string;
 };
+
 const BookPageHeader = ({ title }: Props) => (
 	<Box sx={{ mb: 2, mt: 2 }}>
 		<Typography
@@ -18,7 +20,11 @@ const BookPageHeader = ({ title }: Props) => (
 			{title}
 			<BookDialog isAddBookDialog>
 				{open => (
-					<Button onClick={open} variant="contained">
+					<Button
+						onClick={open}
+						variant="contained"
+						sx={{ height: 52, fontWeight: 'bold' }}
+					>
 						Add book
 					</Button>
 				)}
