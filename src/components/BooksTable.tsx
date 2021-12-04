@@ -144,9 +144,8 @@ const BooksTable = ({ isRead }: Props) => {
 			if (isRead !== undefined) {
 				userBooks = userBooks.filter(book => book.isRead === isRead);
 			}
-
 			setBooks(userBooks);
-			setFilteredBooks(userBooks);
+			filterBooks(userBooks as [Book]);
 		});
 		return () => {
 			unsubscribe();
@@ -155,7 +154,7 @@ const BooksTable = ({ isRead }: Props) => {
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
-		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - books.length) : 0;
+		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredBooks.length) : 0;
 
 	const handleChangePage = (
 		_event: React.MouseEvent<HTMLButtonElement> | null,
@@ -186,13 +185,15 @@ const BooksTable = ({ isRead }: Props) => {
 		setSelectedBookId('');
 	};
 
-	const filterBooks = (query = '', category = 'none') => {
+	const filterBooks = (bookArray: Book[] = books) => {
+		const searchTextFilter = localStorage.getItem('searchText') ?? '';
+		const categoryFilter = localStorage.getItem('category') ?? '';
 		setFilteredBooks(
-			books.filter(book =>
-				category !== 'none'
-					? book.title.toLowerCase().includes(query.toLowerCase()) &&
-					  book.category.includes(category)
-					: book.title.toLowerCase().includes(query.toLowerCase())
+			bookArray.filter(book =>
+				categoryFilter !== 'none'
+					? book.title.toLowerCase().includes(searchTextFilter.toLowerCase()) &&
+					  book.category.includes(categoryFilter)
+					: book.title.toLowerCase().includes(searchTextFilter.toLowerCase())
 			)
 		);
 	};
