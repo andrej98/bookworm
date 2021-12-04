@@ -1,10 +1,12 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import { signOut } from '../utils/firebase';
+
+import UserDialog from './UserDialog';
 
 const LoginMenu = () => {
 	const { user } = useLoggedInUser();
@@ -13,10 +15,6 @@ const LoginMenu = () => {
 	const logout = () => {
 		signOut();
 		push('/');
-	};
-
-	const showUserNameInfo = () => {
-		alert(`You are currently logged in as: \n${user?.email}`);
 	};
 
 	return (
@@ -39,10 +37,13 @@ const LoginMenu = () => {
 					}}
 				>
 					<div>
-						{/* {mobile ? <div /> : <Typography>{user.email}</Typography>} */}
-						<Button color="secondary" onClick={showUserNameInfo}>
-							<AccountCircleIcon />
-						</Button>
+						<UserDialog>
+							{open => (
+								<IconButton color="secondary" onClick={open}>
+									<AccountCircleIcon />
+								</IconButton>
+							)}
+						</UserDialog>
 
 						<Button color="secondary" onClick={logout}>
 							<LogoutIcon />
