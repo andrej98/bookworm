@@ -60,7 +60,9 @@ const Filter = (props: FilterProps) => {
 			sx={{
 				width: '100%',
 				display: 'flex',
-				justifyContent: 'space-between'
+				justifyContent: 'space-between',
+				mb: 2,
+				mt: 2
 			}}
 		>
 			<TextField
