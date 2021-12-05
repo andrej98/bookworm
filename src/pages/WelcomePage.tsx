@@ -28,18 +28,18 @@ const WelcomePage = () => (
 					variant="h3"
 					sx={{
 						textAlign: 'center',
-						fontWeight: 'bold',
-						color: '#000'
+						fontWeight: 'bold'
 					}}
+					color="text.primary"
 				>
 					Welcome to BookWorm.
 				</Typography>
 				<Typography
 					variant="body1"
 					sx={{
-						textAlign: 'center',
-						color: '#5f6368'
+						textAlign: 'center'
 					}}
+					color="text.secondary"
 				>
 					Your easy to use book tracking tool.
 				</Typography>
