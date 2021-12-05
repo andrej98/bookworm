@@ -29,15 +29,15 @@ type Props = {
 };
 
 export const categories = [
+	'Action and Adventure',
+	'Biographies',
+	'Cookbooks',
+	'Detective and Mystery',
 	'Fantasy',
 	'Historical',
 	'Horror',
-	'Action and Adventure',
-	'Detective and Mystery',
-	'Romance',
-	'Biographies',
-	'Cookbooks',
-	'Other'
+	'Other',
+	'Romance'
 ];
 
 const BookDialog = ({
