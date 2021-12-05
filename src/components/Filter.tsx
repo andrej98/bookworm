@@ -7,7 +7,7 @@ import {
 	TextField
 } from '@mui/material';
 import { Close, Search } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { categories } from './BookDialog';
 
@@ -20,13 +20,6 @@ type FilterProps = {
 };
 
 const Filter = (props: FilterProps) => {
-	// const [searchTextFilter, setSearchTextFilter] = useState(
-	// 	localStorage.getItem('searchText') ?? ''
-	// );
-	// const [categoryFilter, setCategoryFilter] = useState(
-	// 	localStorage.getItem('category') ?? 'none'
-	// );
-
 	useEffect(() => {
 		props.filterBooks();
 	}, [props.searchTextFilter, props.categoryFilter]);
@@ -35,22 +28,18 @@ const Filter = (props: FilterProps) => {
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
 		const searchText = e.target.value as string;
-		// localStorage.setItem('searchText', searchText);
 		props.setSearchTextFilter(searchText);
 	};
 	const handleCategoryChange = (event: SelectChangeEvent) => {
 		const selectedCategory = event.target.value as string;
-		// localStorage.setItem('category', selectedCategory);
 		props.setCategoryFilter(selectedCategory);
 	};
 
 	const clearSearch = () => {
-		// localStorage.setItem('searchText', '');
 		props.setSearchTextFilter('');
 	};
 
 	const clearCategory = () => {
-		// localStorage.setItem('category', 'none');
 		props.setCategoryFilter('none');
 	};
 
