@@ -95,6 +95,14 @@ const BookDialog = ({
 			descriptionProps.onChange({ target: { value: '' } } as never);
 			setCategory('');
 		}
+
+		return () => {
+			titleProps.onChange({ target: { value: '' } } as never);
+			authorProps.onChange({ target: { value: '' } } as never);
+			yearProps.onChange({ target: { value: '' } } as never);
+			descriptionProps.onChange({ target: { value: '' } } as never);
+			setCategory('');
+		};
 	}, [open]);
 
 	const handleSubmit = async (isRead: boolean) => {
