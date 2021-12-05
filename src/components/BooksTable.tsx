@@ -20,6 +20,7 @@ import BookDialog from './BookDialog';
 import ConfirmDialog from './ConfirmDialog';
 import Filter from './Filter';
 import TablePaginationActions from './TablePagination';
+import LinearLoading from './LinearLoading';
 
 type Column = {
 	id: 'booktitle' | 'author' | 'category';
@@ -51,9 +52,11 @@ const BooksTable = ({ isRead }: Props) => {
 	const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
 	const [selectedBookId, setSelectedBookId] = useState('');
 	const filterProps = useFilter();
-
+	const [loading, setLoading] = useState(true);
+	console.log(loading);
 	useEffect(() => {
 		const unsubscribe = onSnapshot(booksCollection, snapshot => {
+			setLoading(true);
 			const allBooks = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
@@ -63,6 +66,7 @@ const BooksTable = ({ isRead }: Props) => {
 			}
 			setBooks(userBooks);
 			filterBooks(userBooks as [Book]);
+			setLoading(false);
 		});
 		return () => {
 			unsubscribe();
@@ -122,6 +126,7 @@ const BooksTable = ({ isRead }: Props) => {
 	return (
 		<>
 			<Filter {...filterProps} filterBooks={filterBooks} />
+			{loading && <LinearLoading />}
 			<TableContainer component={Paper}>
 				<Table stickyHeader aria-label="sticky table" sx={{ minWidth: 500 }}>
 					<TableHead>
