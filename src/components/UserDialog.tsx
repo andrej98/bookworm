@@ -25,7 +25,7 @@ const UserDialog = ({ children }: UserProps) => {
 	return (
 		<>
 			{children(() => setOpen(true))}
-			<Dialog open={open} onClose={closeDialog}>
+			<Dialog open={open} onClose={closeDialog} fullWidth>
 				<DialogTitle
 					sx={{
 						display: 'flex',
@@ -44,7 +44,7 @@ const UserDialog = ({ children }: UserProps) => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 1,
-						minWidth: 500
+						minWidth: 350
 					}}
 				>
 					<Typography>{user?.email}</Typography>

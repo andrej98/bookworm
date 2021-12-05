@@ -27,7 +27,7 @@ const ConfirmDialog = ({ bookTitle, onConfirm, children }: Props) => {
 		<>
 			{children(() => setOpen(true))}
 
-			<Dialog open={open} onClose={() => setOpen(false)}>
+			<Dialog open={open} onClose={() => setOpen(false)} fullWidth>
 				<DialogTitle
 					sx={{
 						display: 'flex',
@@ -46,7 +46,7 @@ const ConfirmDialog = ({ bookTitle, onConfirm, children }: Props) => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 1,
-						minWidth: 500
+						minWidth: 350
 					}}
 				>
 					<Typography>{bookTitle}</Typography>

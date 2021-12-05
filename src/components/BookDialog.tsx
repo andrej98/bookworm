@@ -89,21 +89,21 @@ const BookDialog = ({
 			} as never);
 			setCategory(book?.category);
 		} else if (!open) {
-			titleProps.onChange({ target: { value: '' } } as never);
-			authorProps.onChange({ target: { value: '' } } as never);
-			yearProps.onChange({ target: { value: '' } } as never);
-			descriptionProps.onChange({ target: { value: '' } } as never);
-			setCategory('');
+			clearProps();
 		}
 
 		return () => {
-			titleProps.onChange({ target: { value: '' } } as never);
-			authorProps.onChange({ target: { value: '' } } as never);
-			yearProps.onChange({ target: { value: '' } } as never);
-			descriptionProps.onChange({ target: { value: '' } } as never);
-			setCategory('');
+			clearProps();
 		};
 	}, [open]);
+
+	const clearProps = () => {
+		titleProps.onChange({ target: { value: '' } } as never);
+		authorProps.onChange({ target: { value: '' } } as never);
+		yearProps.onChange({ target: { value: '' } } as never);
+		descriptionProps.onChange({ target: { value: '' } } as never);
+		setCategory('');
+	};
 
 	const handleSubmit = async (isRead: boolean) => {
 		if (!user?.email) {
@@ -188,7 +188,7 @@ const BookDialog = ({
 	return (
 		<>
 			{children(() => setOpen(true))}
-			<Dialog open={open} onClose={closeDialog}>
+			<Dialog open={open} onClose={closeDialog} fullWidth>
 				<DialogTitle
 					sx={{
 						display: 'flex',
@@ -211,7 +211,7 @@ const BookDialog = ({
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 1,
-						minWidth: 500
+						minWidth: 350
 					}}
 				>
 					<TextField
