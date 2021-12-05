@@ -113,7 +113,8 @@ const BooksTable = ({ isRead }: Props) => {
 				categoryFilter !== 'none'
 					? book.title.toLowerCase().includes(searchTextFilter.toLowerCase()) &&
 					  book.category.includes(categoryFilter)
-					: book.title.toLowerCase().includes(searchTextFilter.toLowerCase())
+					: book.title.toLowerCase().includes(searchTextFilter.toLowerCase()) &&
+					  (isRead === undefined || book.isRead === isRead)
 			)
 		);
 	};
