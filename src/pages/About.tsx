@@ -27,6 +27,7 @@ const About = () => (
 			sx={{
 				mb: 2
 			}}
+			color="text.secondary"
 		>
 			Bookworm is a tool used for management of your books. Under your own user
 			profile, you can add the book after filling in the book title, author and
@@ -38,6 +39,7 @@ const About = () => (
 			sx={{
 				mb: 2
 			}}
+			color="text.secondary"
 		>
 			Bookworm allows you to change info of existing book, put the book to read
 			to the read books category. You may also delete it if you no longer want

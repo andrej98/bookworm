@@ -8,15 +8,16 @@ const theme = createTheme({
 			contrastText: '#ffffff'
 		},
 		text: {
-			primary: '#5e00d9'
+			primary: '#000000',
+			secondary: '#5f6368'
 		},
 		secondary: {
 			main: '#ffffff'
+		},
+		background: {
+			default: '#f3f2f7',
+			paper: '#ffffff'
 		}
-		// background: {
-		// 	default: '#f3f2f7',
-		// 	paper: '#ffffff'
-		// }
 	}
 });
 
