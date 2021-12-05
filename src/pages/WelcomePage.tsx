@@ -11,7 +11,7 @@ const WelcomePage = () => (
 			left: '50%',
 			top: '50%',
 			transform: 'translate(-50%, -50%)',
-			padding: '0 20px 0 20px'
+			padding: '60px 20px 0 20px'
 		}}
 	>
 		<Box

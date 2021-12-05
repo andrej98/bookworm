@@ -33,14 +33,20 @@ const Login = () => {
 	};
 
 	return (
-		<>
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				width: '100%'
+			}}
+		>
 			<Paper
 				component="form"
 				onSubmit={handleSubmit}
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					width: '100%',
+					width: { xs: '100%', sm: '75%', lg: '50%' },
 					p: 4,
 					gap: 2
 				}}
@@ -86,7 +92,7 @@ const Login = () => {
 				</Box>
 			</Paper>
 			{loading && <Loading />}
-		</>
+		</Box>
 	);
 };
 
