@@ -14,6 +14,7 @@ import { Delete, Edit } from '@mui/icons-material';
 
 import { Book, booksCollection, booksDocument } from '../utils/firebase';
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
+import useFilter from '../hooks/useFilter';
 
 import BookDialog from './BookDialog';
 import ConfirmDialog from './ConfirmDialog';
@@ -49,6 +50,7 @@ const BooksTable = ({ isRead }: Props) => {
 	const [books, setBooks] = useState<Book[]>([]);
 	const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
 	const [selectedBookId, setSelectedBookId] = useState('');
+	const filterProps = useFilter();
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(booksCollection, snapshot => {
@@ -66,6 +68,10 @@ const BooksTable = ({ isRead }: Props) => {
 			unsubscribe();
 		};
 	}, []);
+
+	useEffect(() => {
+		filterBooks(books);
+	}, [books]);
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredBooks.length) : 0;
@@ -100,8 +106,8 @@ const BooksTable = ({ isRead }: Props) => {
 	};
 
 	const filterBooks = (bookArray: Book[] = books) => {
-		const searchTextFilter = localStorage.getItem('searchText') ?? '';
-		const categoryFilter = localStorage.getItem('category') ?? '';
+		const searchTextFilter = filterProps.searchTextFilter;
+		const categoryFilter = filterProps.categoryFilter;
 		setFilteredBooks(
 			bookArray.filter(book =>
 				categoryFilter !== 'none'
@@ -114,7 +120,7 @@ const BooksTable = ({ isRead }: Props) => {
 
 	return (
 		<>
-			<Filter filterBooks={filterBooks} />
+			<Filter {...filterProps} filterBooks={filterBooks} />
 			<TableContainer component={Paper}>
 				<Table stickyHeader aria-label="sticky table" sx={{ minWidth: 500 }}>
 					<TableHead>
